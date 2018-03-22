@@ -2,23 +2,104 @@
 /* CSS */
 /* Add your CSS style rules here */
 
+/* CSS libraries: important to keep to conventions that other people can understand and use */
+
 
 /* Start writing code here! */
 
 
 /* Settings */
+/* CSS variables, colon is the top level item */
 :root {
+  --ax-delay: 0;
+  --ax-duration: 300;
+  /* --ax-duration: 300ms;  */
+  --ax-staggerDelay: 200;
+  --ax-timingFunction: ease;
 }
 /* Settings */
 
 
 
 /* Components */
-.ax-El {
+/* ax- prefix, use a prefix if you are building an animation library */
+.ax-El,
+.ax-List > * {
+  /* can stack transition-properties; use all to add to all */
+  transition-property: all;
+  /* how long do I wait for the animation */
+  transition-delay: var(--ax-delay);
+  /* how long will it take to start and end */
+  /* it is possible for CSS to do math - use calc to turn number into milliseconds */
+  transition-duration: calc(var(--ax-duration) * 1ms);
+  /* describs how you want it to animate; default is linear */
+  transition-timing-function: var(--ax-timingFunction);
+  /* can also use shorthand but in libraries, might be better to break it apart */
+}
+.ax-stagger > * {
+  /* transition with calc to add ms, and then multiply by index */
+  transition-delay: calc(var(--ax-staggerDelay) * var(--nIndex) * 1ms);
+}
+/* target anything that is a direct child of anything, get first child */
+* > *:nth-child(1) {
+  /* CSS variable to fake a way to iterate through items in CSS */
+  --nIndex: 0;
+}
+* > *:nth-child(2) {
+  --nIndex: 1;
+}
+* > *:nth-child(3) {
+  --nIndex: 2;
+}
+* > *:nth-child(4) {
+  --nIndex: 3;
+}
+* > *:nth-child(5) {
+  --nIndex: 4;
+}
+/* for everything beyond the index of 6, index is 5 */
+* > *:nth-child(n+6){
+  --nIndex: 5;
+}
+/* when something is not active, all the direct childen reset the nIndex to 0 in order to prevent having to wait for the stagger out */
+*:not(.active) > * {
+  --nIndex: 0;
 }
 /* Components */
 
 
-
 /* Sequences */
+.ax-El.ax-fade,
+.ax-List.ax-fade > * {
+    /* needs a starting point, so in this case is 0 */
+    opacity: 0;
+}
+.ax-El.ax-fade.active,
+.ax-List.ax-fade.active > * {
+    opacity: 1;
+}
+.ax-El.ax-up,
+.ax-List.ax-up > * {
+  /* percent is of self, can use pixel or em as well */
+  transform: translateY(10%);
+}
+.ax-El.ax-up.active,
+.ax-List.ax-up.active > * {
+  transform: translateY(0);
+}
+/* .ax-El.ax-bg {
+  background: #acacac;
+}
+.ax-El.ax-bg.active {
+  background: blue;
+} */
+.ax-El.ax-upScale,
+.ax-List.ax-upScale {
+  transform: scale(.8) translateY(10%) rotate(180deg);
+}
+.ax-El.ax-upScale.active,
+.ax-List.ax-upScale.active {
+  transform: scale(1) translateY(0) rotate(0deg);
+}
+
 /* Sequences */
