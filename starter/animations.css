@@ -16,6 +16,10 @@
   /* --ax-duration: 300ms;  */
   --ax-staggerDelay: 200;
   --ax-timingFunction: ease;
+  /* for performance reasons, what if we don't want to re-paint? */
+  /* don't apply to everything, but in this case, only apply to things that you know will animate */
+  /* what will change? */
+  will-change: opacity;
 }
 /* Settings */
 
